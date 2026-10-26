@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f4ec">
+  <meta name="description" content="Um desafio diário de palavras, divertido e feito para jogar em qualquer lugar.">
+  <title>Palavra do Dia — seu desafio diário</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./src/app.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#game-section">Pular para o jogo</a>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="Palavra do Dia, início">
+      <span class="brand-mark" aria-hidden="true"><span>P</span><span>D</span></span>
+      <span>palavra<span class="brand-accent">.</span></span>
+    </a>
+    <nav class="header-actions" aria-label="Opções do jogo">
+      <button class="icon-button" id="open-rules" type="button" aria-label="Como jogar" title="Como jogar">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M9.6 9a2.5 2.5 0 0 1 4.8.9c0 1.8-2.4 2-2.4 3.7M12 17h.01"></path></svg>
+      </button>
+      <button class="icon-button" id="open-stats" type="button" aria-label="Ver estatísticas" title="Estatísticas">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V9m5 10V5m5 14v-7m5 7V3"></path></svg>
+      </button>
+      <button class="icon-button" id="theme-toggle" type="button" aria-label="Alternar tema claro e escuro" title="Alternar tema">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z"></path></svg>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="welcome-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="spark" aria-hidden="true"></span> UMA PALAVRA, TODO DIA</p>
+        <h1 id="welcome-title">Seu momento<br><span>de pensar.</span></h1>
+        <p class="hero-description">Descubra a palavra secreta. Cada tentativa deixa você mais perto.</p>
+        <div class="hero-meta">
+          <span class="date-pill"><span class="calendar-icon" aria-hidden="true"></span><span id="challenge-label">DESAFIO DE HOJE</span></span>
+          <span class="hero-category" id="category"></span>
+        </div>
+        <button class="primary-button" id="start-game" type="button">Jogar agora <span aria-hidden="true">→</span></button>
+        <p class="rule-summary">6 tentativas · 5 letras · um novo desafio por dia</p>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="art-orbit orbit-one"></div>
+        <div class="art-orbit orbit-two"></div>
+        <div class="art-sun"></div>
+        <div class="art-tile tile-art tile-art-one">?</div>
+        <div class="art-tile tile-art tile-art-two">A</div>
+        <div class="art-tile tile-art tile-art-three">!</div>
+        <div class="art-sticker">UMA<br>POR DIA</div>
+      </div>
+    </section>
+
+    <section class="game-section" id="game-section" aria-labelledby="game-title" tabindex="-1">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">DESAFIO DIÁRIO</p>
+          <h2 id="game-title">Qual é a palavra?</h2>
+        </div>
+        <span class="word-length" id="word-length"></span>
+      </div>
+      <p class="game-hint">A categoria de hoje é <strong id="category-inline"></strong>. As letras podem ter acento — digite normalmente.</p>
+      <p class="sr-only" id="live-message" aria-live="polite" aria-atomic="true"></p>
+      <p class="sr-only" id="board-description" aria-live="polite"></p>
+      <div class="board" id="board" aria-label="Tabuleiro, seis tentativas"></div>
+      <p class="attempt-count" id="attempt-count"></p>
+      <div class="keyboard" id="keyboard" aria-label="Teclado virtual">
+        <div class="key-row">
+          <button data-key="Q" type="button">Q</button><button data-key="W" type="button">W</button><button data-key="E" type="button">E</button><button data-key="R" type="button">R</button><button data-key="T" type="button">T</button><button data-key="Y" type="button">Y</button><button data-key="U" type="button">U</button><button data-key="I" type="button">I</button><button data-key="O" type="button">O</button><button data-key="P" type="button">P</button>
+        </div>
+        <div class="key-row key-row-middle">
+          <button data-key="A" type="button">A</button><button data-key="S" type="button">S</button><button data-key="D" type="button">D</button><button data-key="F" type="button">F</button><button data-key="G" type="button">G</button><button data-key="H" type="button">H</button><button data-key="J" type="button">J</button><button data-key="K" type="button">K</button><button data-key="L" type="button">L</button>
+        </div>
+        <div class="key-row">
+          <button class="key-wide" data-key="ENTER" type="button" aria-label="Enviar palavra">OK</button><button data-key="Z" type="button">Z</button><button data-key="X" type="button">X</button><button data-key="C" type="button">C</button><button data-key="V" type="button">V</button><button data-key="B" type="button">B</button><button data-key="N" type="button">N</button><button data-key="M" type="button">M</button><button class="key-wide" data-key="BACKSPACE" type="button" aria-label="Apagar última letra">⌫</button>
+        </div>
+      </div>
+      <div class="submit-wrap">
+        <button class="secondary-button" id="submit-guess" type="button">Enviar tentativa</button>
+      </div>
+      <section class="result-panel" id="result-panel" aria-live="polite" hidden>
+        <div class="result-icon" aria-hidden="true"><span></span></div>
+        <div class="result-copy">
+          <p class="eyebrow" id="answer-category"></p>
+          <h3 id="result-title"></h3>
+          <p id="result-description"></p>
+          <p class="answer-line">A palavra era <strong id="answer-reveal"></strong></p>
+        </div>
+        <div class="result-stats">
+          <span><strong id="result-streak">0 dias</strong><small>sequência</small></span>
+          <span><strong id="result-win-rate">0%</strong><small>de acertos</small></span>
+          <div class="share-actions">
+            <button id="share-result" class="share-button" type="button">Compartilhar</button>
+            <button id="copy-result" class="copy-button" type="button">Copiar resultado</button>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="how-section" aria-labelledby="how-title">
+      <div class="how-heading">
+        <p class="eyebrow">FÁCIL DE PEGAR</p>
+        <h2 id="how-title">É assim que funciona.</h2>
+      </div>
+      <div class="how-steps">
+        <article><span class="step-number">01</span><h3>Arrisque uma palavra</h3><p>Escreva qualquer palavra de 5 letras que esteja no nosso vocabulário.</p></article>
+        <article><span class="step-number">02</span><h3>Leia as pistas</h3><p>As cores e os símbolos mostram quais letras estão no lugar certo ou em outro lugar.</p></article>
+        <article><span class="step-number">03</span><h3>Descubra em seis</h3><p>Use até 6 tentativas. Um novo desafio aparece a cada dia.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand footer-brand" href="./"><span class="brand-mark" aria-hidden="true"><span>P</span><span>D</span></span><span>palavra<span class="brand-accent">.</span></span></a>
+    <p>Feito para uma pausa esperta no seu dia.</p>
+    <a class="prototype-link" href="./prototypes.html">Ver estudos de interface</a>
+  </footer>
+
+  <dialog class="app-dialog" id="rules-dialog" aria-labelledby="rules-title">
+    <div class="dialog-header"><div><p class="eyebrow">GUIA RÁPIDO</p><h2 id="rules-title">Como jogar</h2></div><button class="icon-button dialog-close" data-close-dialog type="button" aria-label="Fechar instruções">×</button></div>
+    <p>Descubra a palavra de cinco letras em até seis tentativas. Depois de cada palpite, cada letra recebe uma pista:</p>
+    <ul class="legend-list">
+      <li><span class="legend-tile correct">A <b>✓</b></span><span><strong>No lugar certo</strong><br>A letra está na resposta e na posição certa.</span></li>
+      <li><span class="legend-tile present">R <b>↗</b></span><span><strong>Em outro lugar</strong><br>A letra existe, mas está em outra posição.</span></li>
+      <li><span class="legend-tile absent">S <b>−</b></span><span><strong>Não aparece</strong><br>Essa letra não está na palavra.</span></li>
+    </ul>
+    <p>Palavras com acentos são comparadas sem acento; a resposta é revelada quando o desafio termina.</p>
+    <button class="primary-button dialog-action" data-close-dialog type="button">Entendi</button>
+  </dialog>
+
+  <dialog class="app-dialog stats-dialog" id="stats-dialog" aria-labelledby="stats-title">
+    <div class="dialog-header"><div><p class="eyebrow">SEU PROGRESSO</p><h2 id="stats-title">Estatísticas</h2></div><button class="icon-button dialog-close" data-close-dialog type="button" aria-label="Fechar estatísticas">×</button></div>
+    <div class="stats-grid">
+      <div><strong id="stat-played">0</strong><span>partidas</span></div><div><strong id="stat-wins">0</strong><span>vitórias</span></div><div><strong id="stat-rate">0%</strong><span>acertos</span></div><div><strong id="stat-streak">0</strong><span>sequência atual</span></div><div><strong id="stat-best-streak">0</strong><span>melhor sequência</span></div>
+    </div>
+    <h3 class="history-title">Últimas partidas</h3>
+    <ol class="history-list" id="history-list"></ol>
+    <p class="storage-note">Seu progresso fica salvo neste navegador. Limpar os dados do site ou trocar de aparelho apaga ou não transfere esse histórico.</p>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Estudos de interface — Palavra do Dia</title>
+  <link rel="stylesheet" href="./prototypes.css">
+</head>
+<body>
+  <header class="prototype-header">
+    <a href="./">← Voltar ao jogo</a>
+    <p>ESTUDOS DE INTERFACE · 03 ROTAS VISUAIS</p>
+  </header>
+  <main>
+    <h1>Três jeitos de<br>jogar com palavras.</h1>
+    <p class="intro">Comparação dos protótipos antes da implementação. Todos usam a mesma hierarquia, tabuleiro e pistas acessíveis — com diferentes identidades visuais.</p>
+    <section class="options" aria-label="Três alternativas de interface">
+      <article class="option option-a">
+        <div class="option-heading"><span>01 / ESCOLHIDO</span><span>QUENTE &amp; AMIGÁVEL</span></div>
+        <div class="mock mock-a">
+          <header><b>▰ palavra.</b><span>?</span></header>
+          <div class="mock-hero"><small>UMA PALAVRA, TODO DIA</small><h2>Seu momento<br><em>de pensar.</em></h2><p>Um desafio curto pra mexer a cabeça.</p><button>Jogar agora　→</button><div class="sun"></div></div>
+          <div class="mock-game"><strong>Qual é a palavra?</strong><div class="tiles"><i class="green">C</i><i class="yellow">A</i><i>R</i><i>T</i><i>A</i></div><div class="tiles"><i></i><i></i><i></i><i></i><i></i></div><div class="mock-keys">Q W E R T Y U I O P</div></div>
+        </div>
+        <div class="option-notes"><h3>01 · Editorial lúdico</h3><p>Paleta de papel, verde botânico e coral; ilustração abstrata; tom acolhedor. A escolha do MVP equilibra energia jovem e legibilidade sem infantilizar a experiência.</p><ul><li><b>Clareza</b> Hierarquia simples e pista acompanhada de símbolo.</li><li><b>Acessibilidade</b> Contraste robusto, toque amplo e tema escuro no app.</li><li><b>Mobile</b> Uma coluna, jogo visível sem navegação complexa.</li></ul></div>
+      </article>
+      <article class="option option-b">
+        <div class="option-heading"><span>02 / EXPLORAÇÃO</span><span>ARCADE DIGITAL</span></div>
+        <div class="mock mock-b">
+          <header><b>PALAVRA<span>//</span></b><span>● 03</span></header>
+          <div class="mock-hero"><small>DAILY QUEST_0042</small><h2>READY TO<br><em>DECODE?</em></h2><p>SEU DESAFIO · CIÊNCIA</p><button>INICIAR MISSÃO ↗</button></div>
+          <div class="mock-game"><strong>&gt;_ GUESS THE WORD</strong><div class="tiles"><i class="green">C</i><i class="yellow">A</i><i>R</i><i>T</i><i>A</i></div><div class="tiles"><i></i><i></i><i></i><i></i><i></i></div><div class="mock-keys">Q W E R T Y U I O P</div></div>
+        </div>
+        <div class="option-notes"><h3>02 · Arcade neon</h3><p>Fundo escuro, verde ácido e linguagem de missão. Cria identidade forte, mas pode cansar em sessões curtas e exige cuidado extra com contraste e animações.</p><ul><li><b>Clareza</b> Boa distinção, atmosfera mais intensa.</li><li><b>Acessibilidade</b> Requer checagem de contraste em cada cor neon.</li><li><b>Mobile</b> Grade compacta; ótima para um público gamer.</li></ul></div>
+      </article>
+      <article class="option option-c">
+        <div class="option-heading"><span>03 / EXPLORAÇÃO</span><span>JORNAL MINIMAL</span></div>
+        <div class="mock mock-c">
+          <header><b>O JOGO DIÁRIO</b><span>MENU</span></header>
+          <div class="mock-hero"><small>QUARTA-FEIRA · EDIÇÃO 042</small><h2>Uma palavra.<br><em>Seis chances.</em></h2><p>Um pequeno desafio para o seu intervalo.</p><button>COMEÇAR DESAFIO　→</button></div>
+          <div class="mock-game"><strong>01 — CULTURA DIGITAL</strong><div class="tiles"><i class="green">C</i><i class="yellow">A</i><i>R</i><i>T</i><i>A</i></div><div class="tiles"><i></i><i></i><i></i><i></i><i></i></div><div class="mock-keys">Q W E R T Y U I O P</div></div>
+        </div>
+        <div class="option-notes"><h3>03 · Caderno editorial</h3><p>Composição tipográfica e muito espaço em branco. É calma e elegante, mas oferece menos personalidade imediata para o público mais jovem.</p><ul><li><b>Clareza</b> Conteúdo e regras em primeiro plano.</li><li><b>Acessibilidade</b> Layout limpo e baixa dependência de cor.</li><li><b>Mobile</b> Excelente leitura, identidade mais discreta.</li></ul></div>
+      </article>
+    </section>
+    <aside class="decision"><b>Decisão de design</b><p>Implementamos a rota 01. Ela combina leitura rápida, identidade original e uma paleta quente; verde, amarelo e cinza são complementados por símbolos e descrições textuais para que o feedback não dependa só da cor.</p><a href="./">Abrir o jogo implementado →</a></aside>
+  </main>
+</body>
+</html>
