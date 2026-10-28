@@ -11,6 +11,7 @@ import {
   validateGuess
 } from "../src/game-logic.mjs";
 import { loadProgress, saveProgress, STORAGE_KEY } from "../src/persistence.mjs";
+import { ACCEPTED_GUESSES, ANSWERS } from "../src/word-bank.mjs";
 
 test("acerta na primeira e na sexta tentativa e bloqueia depois de concluir", () => {
   const challenge = { word: "cobra", category: "Animais" };
@@ -56,11 +57,35 @@ test("rejeita tamanho inválido, palavra desconhecida e tentativa repetida", () 
   assert.equal(validateGuess("maçãs", ["macas"]).reason, "repeated");
 });
 
+test("tentativas inválidas não alteram a partida nem consomem oportunidades", () => {
+  const game = { guesses: ["MANGA"], completed: false, won: false, answer: null };
+  for (const [guess, error] of [["gato", "length"], ["xyzzy", "unknown"], ["manga", "repeated"]]) {
+    const result = applyGuess(game, { word: "cobra" }, guess);
+    assert.equal(result.error, error);
+    assert.equal(result.game, game);
+    assert.equal(result.game.guesses.length, 1);
+  }
+});
+
+test("banco de respostas tem cinco letras únicas e integra o vocabulário aceito", () => {
+  const normalizedAnswers = ANSWERS.map(({ word }) => normalizeWord(word));
+  const normalizedAccepted = new Set(ACCEPTED_GUESSES.map(normalizeWord));
+  assert.equal(new Set(normalizedAnswers).size, ANSWERS.length);
+  assert.ok(normalizedAnswers.every((word) => word.length === 5));
+  assert.ok(normalizedAnswers.every((word) => normalizedAccepted.has(word)));
+  assert.ok(ACCEPTED_GUESSES.every((word) => normalizeWord(word).length === 5));
+});
+
 test("seleciona a mesma palavra para a mesma data, independente do instante", () => {
   assert.deepEqual(getDailyChallenge("2026-10-21"), getDailyChallenge("2026-10-21"));
   assert.notEqual(getDailyChallenge("2026-10-21").word, getDailyChallenge("2026-10-22").word);
   assert.equal(getDateKey(new Date("2026-10-21T13:00:00Z")), "2026-10-21");
   assert.throws(() => getDailyChallenge("2026-02-30"), /data do desafio não é válida/);
+});
+
+test("vira o desafio à meia-noite de São Paulo, independentemente do fuso UTC", () => {
+  assert.equal(getDateKey(new Date("2026-10-28T02:59:59Z")), "2026-10-27");
+  assert.equal(getDateKey(new Date("2026-10-28T03:00:00Z")), "2026-10-28");
 });
 
 test("calcula estatísticas, streak atual, melhor streak e lacuna", () => {
@@ -106,6 +131,13 @@ test("recusa dados persistidos malformados", () => {
     getItem: () => '{"version":1,"games":{"2026-02-30":{"guesses":[],"completed":false,"won":false,"answer":null}}}'
   };
   assert.throws(() => loadProgress(invalidDate), /histórico salvo contém uma partida inválida/);
+});
+
+test("propaga falhas de leitura e gravação do armazenamento", () => {
+  const readFailure = { getItem: () => { throw new Error("leitura bloqueada"); } };
+  const writeFailure = { setItem: () => { throw new Error("quota excedida"); } };
+  assert.throws(() => loadProgress(readFailure), /leitura bloqueada/);
+  assert.throws(() => saveProgress({ version: 1, games: {} }, writeFailure), /quota excedida/);
 });
 
 test("o resultado compartilhável usa apenas grade, tentativas e estado, nunca a solução", () => {

@@ -22,7 +22,9 @@ tests/game-logic.test.mjs         (Node.js test runner)
 - `src/app.mjs`: estado de tela, renderização do tabuleiro/teclado/estatísticas, eventos e integrações de navegador.
 - `index.html`, `styles.css`: interface do jogo e regras/instruções acessíveis.
 - `prototypes.html`, `prototypes.css`: três alternativas para comparação e registro da decisão.
-- `tests/game-logic.test.mjs`: testes de regras, persistência, streak e compartilhamento.
+- `tests/game-logic.test.mjs`: testes de regras, banco de palavras, persistência, streak, datas e compartilhamento.
+- `e2e/game.spec.mjs`: fluxos de navegador, tratamento de falhas de storage, auditoria axe e responsividade.
+- `playwright.config.mjs`: execução dos mesmos testes em Chromium, Firefox e WebKit.
 - `server.mjs`: servidor local simples para desenvolvimento.
 
 ## Modelo de dados
@@ -103,9 +105,12 @@ Uma partida incompleta tem `completed: false`, `won: false`, `answer: null`. O o
 
 ## Estratégia de testes e execução
 
-- Unitários para vitória em 1/6, derrota, duplicatas, vocabulário, repetição, acentuação/cedilha, determinismo diário, estatísticas, streak, persistência e dado salvo malformado.
-- Verificações adicionais do navegador: layout em viewport mobile e teclado/foco/semântica. A página `prototypes.html` apresenta três comparações de interface.
-- Executar `npm test`.
+- Unitários para vitória em 1/6, derrota, tentativas inválidas, duplicatas, integridade do vocabulário, repetição, acentuação/cedilha, virada diária em São Paulo, determinismo, estatísticas, streak e falhas/dados malformados do armazenamento.
+- End-to-end para teclado físico e virtual, vitória, derrota, repetição, persistência após recarga, falhas de leitura/gravação, dialogs, preferência de tema e ausência de revelação prematura.
+- Axe verifica critérios WCAG 2.1 A/AA na tela inicial, no diálogo e nos temas claro/escuro. Testes responsivos verificam seis larguras, overflow e tamanho mínimo de teclas.
+- Executar `npm test`; instalar browsers com `npx playwright install chromium firefox webkit`; executar `npm run test:e2e`.
+- Compatibilidade automatizada roda nos engines Chromium, Firefox e WebKit. A auditoria axe e as verificações de viewport não substituem leitor de tela/dispositivo físico.
+- A página `prototypes.html` apresenta três comparações de interface.
 - Executar `npm start` e abrir `http://localhost:4173`; protótipos em `http://localhost:4173/prototypes.html`.
 - Requer Node.js 18+ e navegador moderno. Não são necessárias dependências instaladas.
 
@@ -125,4 +130,4 @@ Uma partida incompleta tem `completed: false`, `won: false`, `answer: null`. O o
 - A programação cíclica depende da ordem do banco e não preserva calendário após troca editorial; pode-se versionar uma agenda de desafios.
 - O idioma de interface/resposta é português brasileiro.
 - O CSS importa fontes do Google Fonts para acabamento; fontes locais de fallback preservam a legibilidade sem conexão.
-- Testes automatizados unitários não substituem auditoria assistiva manual, teste de contraste com paletas finais nem avaliação com leitores de tela/dispositivos reais.
+- Testes automatizados unitários, axe e navegadores headless não substituem auditoria assistiva manual ou avaliação com leitores de tela/dispositivos reais.

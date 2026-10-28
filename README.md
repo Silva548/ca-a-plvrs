@@ -16,7 +16,11 @@ Abra <http://localhost:4173>. Para comparar as três rotas visuais, acesse <http
 
 ```sh
 npm test
+npx playwright install chromium firefox webkit
+npm run test:e2e
 ```
+
+`npm test` executa os testes unitários. `npm run test:e2e` executa fluxos de interface, acessibilidade automatizada e responsividade em Chromium, Firefox e WebKit. A instalação dos navegadores é necessária uma vez; em Linux, o Playwright pode solicitar bibliotecas de sistema adicionais.
 
 ## Documentação
 
